@@ -44,8 +44,6 @@ const holdTask = async (req, res) => {
 
     const claimId = `dev-claim-${dispatchId}`;
 
-    //heldTasks.set(dispatchId, claimId);
-
     return res.status(200).json({
         ok: true,
         claimId,
@@ -62,24 +60,6 @@ const claimTask = async (req, res) => {
     const { dispatchId } = req.params;
     const { claimId } = req.body;
 
-    // const storedClaimId = heldTasks.get(dispatchId);
-
-    // No matching hold
-    // if (!storedClaimId) {
-        // return res.status(409).json({
-        //     ok: false,
-        //     error: "Task is not held"
-        // });
-    // }
-
-    // Wrong/stale claim ID
-    // if (storedClaimId !== claimId) {
-    //     return res.status(409).json({
-    //         ok: false,
-    //         error: "Invalid claimId"
-    //     });
-    // }
-
     return res.status(200).json({
         ok: true,
         task: {
@@ -90,9 +70,27 @@ const claimTask = async (req, res) => {
     });
 };
 
+const completeTask = async (req, res) => {
+    const { dispatchId } = req.params;
+    console.log(`Completing task with dispatchId: ${dispatchId}`);
+    return res.status(200).json({
+        ok: true
+    });
+}
+
+const revokeTask = async (req, res) => {
+    const { dispatchId } = req.params;
+    console.log(`Revoking task with dispatchId: ${dispatchId}`);
+    return res.status(200).json({
+        ok: true
+    });
+}
+
 export {
     holdTask,
     claimTask,
     getTasks,
+    completeTask,
+    revokeTask,
     heartbeat
 }

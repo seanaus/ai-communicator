@@ -3,7 +3,7 @@ node_modules
 dist
 # Files to Ignore
 *.env
+*.exe
 *.bun-build
 log.csv
 config/firebase-service-account.json
-
