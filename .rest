@@ -1,0 +1,103 @@
+###
+GET http://localhost:5000/api/tasks?10
+
+###
+POST http://localhost:5000/api/tasks/dispatch-42/hold
+Content-Type: application/json
+
+{
+
+}
+
+###
+POST http://localhost:5000/api/tasks/dispatch-42/claim
+Content-Type: application/json
+
+{        
+  "claimId" : "opaque-hold-token-1"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+GET http://localhost:5000/tfd_flow/Brainstorming Attended/visible
+Content-Type: application/json
+
+{
+    "model": "deepseek-r1:1.5b",
+    "prompt": "Track: Bungle In The Jungle, Artist: Jeffro Tull"
+}
+
+###
+
+POST http://localhost:3001/api/chat?max_tokens=50
+Content-Type: application/json
+
+{
+    "model": "deepseek-r1:1.5b",
+    "prompt": "Track: The Lion Sleeps Tonight, Artist: Tight Fit, In the jungle, Jeffrey and Bungle are trying to have a.."
+}
+
+###
+
+POST http://localhost:3001/api/audio
+Content-Type: application/json
+
+{
+  "engine": "parakeet",
+  "file": "speech.wav"
+}
+
+###
+POST http://localhost:3001/api/audio
+Content-Type: application/json
+
+{
+  "engine": "whisper",
+  "file": "speech.wav"
+}
+
+###
+
+POST http://localhost:3000/api/requests
+Content-Type: application/json
+
+{
+  "reqId": "A1234G6789Z",
+  "engine": "parakeet",
+  "file": "speech.wav"
+}
+
+###
+
+POST http://localhost:3000/api/requests
+Content-Type: application/json
+
+[
+  {
+    "id": "000000001",
+    "task": "ai.worker.parakeet",
+    "workerParams": {
+      "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-parakeet-tdt-0.6b-v3-q8_0.bin",
+      "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech.wav"
+    }
+  },
+  {
+    "id": "000000002",
+    "task": "ai.worker.whisper",
+    "workerParams": {
+      "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-tiny.en.bin",
+      "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech.wav"
+    }
+  }
+]
+

@@ -1,0 +1,9 @@
+# Folders to Ignore
+node_modules
+dist
+# Files to Ignore
+*.env
+*.bun-build
+log.csv
+config/firebase-service-account.json
+
