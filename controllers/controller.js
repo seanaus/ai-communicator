@@ -1,96 +1,121 @@
 "use strict";
 
-import * as controllerService from "../services/controllerService.js";
-import * as loggerService from "../services/loggerService.js";
+import * as dataService from "../services/dataService.js";
+// import * as loggerService from "../services/loggerService.js";
+import * as turnStatusEnum from "../enums/turnStatusEnum.js";
 
-const heldTasks = new Map();
-
-const getTasks = async (req, res) => {
+const getTurns = async (req, res) => {
     try {
         // 1. Parse query string to a base-10 integer, fallback to a default (e.g., 8)
         const limit = parseInt(req.query.limit, 10) || 8;
-
-        // 2. Await the service which now resolves after your mock DB delay
-        const data = await controllerService.requestWork(limit);
-
+        const data = (await dataService.getTurns()).slice(0, limit);
         // 3. Return the payload safely
         return res.json(data);
     } catch (error) {
-        console.error("Failed to request work:", error);
+        console.error("Failed to request turns:", error);
+        return res.status(500).json({ ok: false, error: "Internal Server Error" });
+    }
+};
+
+const getTurn = async (req, res) => {
+    try {
+        const id = req.params.turnId;
+        const data = await dataService.getTurn(id);
+        return res.json(data);
+    } catch (error) {
+        console.error("Failed to request turn:", error);
         return res.status(500).json({ ok: false, error: "Internal Server Error" });
     }
 };
 
 
 const heartbeat = (req, res) => {
-
-    console.log(`WORKERS: ${JSON.stringify(req.body)}`);
-
-    res.json({
-        status: "ok"
-    });
+    const processorId = req.params.processorId ?? "";
+    console.log(`Heartbeat from: ${processorId}`);
+    res.json({ status: "ok" });
 }
 
-const holdTask = async (req, res) => {
-    const { dispatchId } = req.params;
+const claimTurn = async (req, res) => {
+    const id = req.params.turnId;
 
-    // Simulate a task that is already held
-    if (heldTasks.has(dispatchId)) {
-        return res.status(409).json({
+    const obj = {
+        nextToken: "",
+        waitToken: `dummy.waitToken.${id}`,
+        expiresAt: dataService.dateAdd(1).toISOString(),
+        status: turnStatusEnum.WAITING,
+        processorId: req?.body?.processorId ?? "",
+        profileId: req?.body?.processorId ?? "",
+        allocationId: req?.body?.processorId ?? ""
+    }
+
+    await dataService.editTurn(id, obj);
+
+    const turn = await dataService.getTurn(id);
+
+    return res.status(200).json({
+        ok: true,
+        turn
+    });
+};
+
+const settle = async (req, res) => {
+    const turnId = req.body.turnId;
+    const failure = req?.body?.failure ?? true
+    const status = failure ? turnStatusEnum.FAILED : turnStatusEnum.COMPLETED;
+    const waitToken = req.body.waitToken ?? "";
+    const turn = await dataService.getTurn(turnId);
+
+    if (turn.waitToken !== waitToken) {
+        return res.status(400).json({
             ok: false,
-            error: "Task is already held"
+            error: "Invalid waitToken"
         });
     }
 
-    const claimId = `dev-claim-${dispatchId}`;
+    const obj = {
+        waitToken: req.body.waitToken ?? "",
+        status: req?.body?.status ?? status,
+        actions: req.body.actions || {},
+        failure: failure,
+    }
 
-    return res.status(200).json({
-        ok: true,
-        claimId,
-        task: {
-            dispatchId,
-            status: "held",
-            claimId
-        }
-    });
-};
+    await dataService.editTurn(turnId, obj);
+    const x = await dataService.getTurn(turnId);
+    console.log(`Settling turn with turnId: ${turnId} success: ${!failure}`);
 
-
-const claimTask = async (req, res) => {
-    const { dispatchId } = req.params;
-    const { claimId } = req.body;
-
-    return res.status(200).json({
-        ok: true,
-        task: {
-            dispatchId,
-            status: "claimed",
-            claimId
-        }
-    });
-};
-
-const completeTask = async (req, res) => {
-    const { dispatchId } = req.params;
-    console.log(`Completing task with dispatchId: ${dispatchId}`);
     return res.status(200).json({
         ok: true
     });
 }
 
-const revokeTask = async (req, res) => {
-    const { dispatchId } = req.params;
-    console.log(`Revoking task with dispatchId: ${dispatchId}`);
-    return res.status(200).json({
-        ok: true
-    });
-}
+// const holdTask = async (req, res) => {
+//     const { turnId } = req.params;
+
+//     // Simulate a task that is already held
+//     if (heldTasks.has(turnId)) {
+//         return res.status(409).json({
+//             ok: false,
+//             error: "Task is already held"
+//         });
+//     }
+
+//     const claimId = `dev-claim-${turnId}`;
+
+//     return res.status(200).json({
+//         ok: true,
+//         claimId,
+//         task: {
+//             turnId,
+//             status: "held",
+//             claimId
+//         }
+//     });
+// };
 
 export {
-    holdTask,
-    claimTask,
-    getTasks,
-    completeTask,
-    revokeTask,
+    getTurn,
+    getTurns,
+    claimTurn,
+    settle,
     heartbeat
 }
