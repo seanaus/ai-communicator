@@ -58,11 +58,14 @@ const claimTurn = async (req, res) => {
     });
 };
 
-const settle = async (req, res) => {
+const settlement = async (req, res) => {
+
     const turnId = req.body.turnId;
-    const failure = req?.body?.failure ?? true
-    const status = failure ? turnStatusEnum.FAILED : turnStatusEnum.COMPLETED;
     const waitToken = req.body.waitToken ?? "";
+    const status = req.body.status;
+    const result = req.body.result;
+    const actions = req.body.actions;
+
     const turn = await dataService.getTurn(turnId);
 
     if (turn.waitToken !== waitToken) {
@@ -73,49 +76,27 @@ const settle = async (req, res) => {
     }
 
     const obj = {
-        waitToken: req.body.waitToken ?? "",
-        status: req?.body?.status ?? status,
-        actions: req.body.actions || {},
-        failure: failure,
+        waitToken,
+        status,
+        result,
+        actions
     }
 
     await dataService.editTurn(turnId, obj);
-    const x = await dataService.getTurn(turnId);
-    console.log(`Settling turn with turnId: ${turnId} success: ${!failure}`);
+
+    const response = await dataService.getTurn(turnId);
+
+    console.log(`Settling turn with turnId: ${turnId} success: ${result.success}`);
 
     return res.status(200).json({
         ok: true
     });
 }
 
-// const holdTask = async (req, res) => {
-//     const { turnId } = req.params;
-
-//     // Simulate a task that is already held
-//     if (heldTasks.has(turnId)) {
-//         return res.status(409).json({
-//             ok: false,
-//             error: "Task is already held"
-//         });
-//     }
-
-//     const claimId = `dev-claim-${turnId}`;
-
-//     return res.status(200).json({
-//         ok: true,
-//         claimId,
-//         task: {
-//             turnId,
-//             status: "held",
-//             claimId
-//         }
-//     });
-// };
-
 export {
     getTurn,
     getTurns,
     claimTurn,
-    settle,
+    settlement,
     heartbeat
 }

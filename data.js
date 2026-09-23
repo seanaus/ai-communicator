@@ -8,14 +8,14 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "parakeet"
+                    "id": "parakeet.mudler"
                 }
             },
-            "requirements": ["ai.worker.parakeet"]
+            "requirements": ["private","parakeet.mudler"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-parakeet-tdt-0.6b-v3-q8_0.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech.wav"
+            "model": "/models/tdt-0.6b-v3-q8_0.gguf",
+            "file": "/files/speech.wav"
         },
         "nextToken": "next.token.0001",
         "waitToken": null,
@@ -32,16 +32,16 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "parakeet"
+                    "id": "whisper.tiny"
                 }
             },
-            "requirements": ["ai.worker.parakeet"]
+            "requirements": ["private","whisper.tiny"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-parakeet-tdt-0.6b-v3-q8_0.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech.wav"
+            "model": "/models/ggml-tiny.en.bin",
+            "file": "/files/speech3.wav"
         },
-        "nextToken": "next.token.0002",
+        "nextToken": "next.token.0007",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -51,21 +51,22 @@ const TURNS = [
         "turnId": "0003",
         "status": "awaiting",
         "current": {
-            "passId": "pass-001",
+            "passId": "pass-008",
             "executionReference": {
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "parakeet"
+                    "id": "deepseek.r1"
                 }
             },
-            "requirements": ["ai.worker.parakeet"]
+            "requirements": ["private","deepseek.r1"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-parakeet-tdt-0.6b-v3-q8_0.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech.wav"
+            "model": "/models/DeepSeek-R1-Distill-Qwen-1.5B-Q8_0.gguf",
+            "prompt": "Why is the sky blue",
+	    "tokens": 50
         },
-        "nextToken": "next.token.0003",
+        "nextToken": "next.token.0008",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -80,16 +81,16 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "whisper"
+                    "id": "parakeet.mudler"
                 }
             },
-            "requirements": ["ai.worker.whisper"]
+            "requirements": ["private","parakeet.mudler"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-tiny.en.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech2.wav"
+            "model": "/models/tdt-0.6b-v3-q8_0.gguf",
+            "file": "/files/speech.wav"
         },
-        "nextToken": "next.token.0004",
+        "nextToken": "next.token.0002",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -104,16 +105,16 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "whisper"
+                    "id": "parakeet.mudler"
                 }
             },
-            "requirements": ["ai.worker.whisper"]
+            "requirements": ["private","parakeet.mudler"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-tiny.en.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech2.wav"
+            "model": "/models/tdt-0.6b-v3-q8_0.gguf",
+            "file": "/files/speech.wav"
         },
-        "nextToken": "next.token.0005",
+        "nextToken": "next.token.0003",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -128,16 +129,16 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "whisper"
+                    "id": "whisper.tiny"
                 }
             },
-            "requirements": ["ai.worker.whisper"]
+            "requirements": ["private","whisper.tiny"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-tiny.en.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech2.wav"
+            "model": "/models/ggml-tiny.en.bin",
+            "file": "/files/speech2.wav"
         },
-        "nextToken": "next.token.0006",
+        "nextToken": "next.token.0004",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -152,16 +153,16 @@ const TURNS = [
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "whisper"
+                    "id": "whisper.tiny"
                 }
             },
-            "requirements": ["ai.worker.whisper"]
+            "requirements": ["private","whisper.tiny"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\ggml-tiny.en.bin",
-            "file": "\\\\ELITEBOOK840G6\\shared\\files\\speech3.wav"
+            "model": "/models/ggml-tiny.en.bin",
+            "file": "/files/speech2.wav"
         },
-        "nextToken": "next.token.0007",
+        "nextToken": "next.token.0005",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
@@ -171,21 +172,21 @@ const TURNS = [
         "turnId": "0008",
         "status": "awaiting",
         "current": {
-            "passId": "pass-008",
+            "passId": "pass-001",
             "executionReference": {
                 "capability": "process-inference",
                 "reference": {
                     "dynaset": "agent",
-                    "id": "deepseek"
+                    "id": "whisper"
                 }
             },
-            "requirements": ["ai.worker.deepseek"]
+            "requirements": ["private","whisper.tiny"]
         },
         "intake": {
-            "model": "\\\\ELITEBOOK840G6\\shared\\models\\DeepSeek-R1-Distill-Qwen-1.5B-Q8_0.gguf",
-            "prompt": "\\\\ELITEBOOK840G6\\shared\\files\\speech2.wav"
+            "model": "/models/ggml-tiny.en.bin",
+            "file": "/files/speech2.wav"
         },
-        "nextToken": "next.token.0008",
+        "nextToken": "next.token.0006",
         "waitToken": null,
         "expiresAt": null,
         "allocationId": null,
